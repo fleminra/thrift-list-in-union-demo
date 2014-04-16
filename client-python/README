@@ -1,0 +1,7 @@
+BUILD
+
+  > /usr/local/thrift-0.9.1/bin/thrift --gen py ../server/src/main/thrift/Service.thrift
+
+RUN
+
+  > ./client.py

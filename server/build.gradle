@@ -1,0 +1,52 @@
+apply plugin: 'application'
+apply plugin: 'scala'
+apply plugin: 'scrooge-gradle-plugin'
+
+mainClassName = 'Server'
+
+repositories
+{
+  maven { url 'http://quannum.ssd.loral.com/nexus/content/groups/public' }
+}
+
+dependencies
+{
+  compile group: 'com.twitter',       name: 'finagle-thrift_2.10',  version: '6.13.1'
+  compile group: 'com.twitter',       name: 'scrooge-runtime_2.10', version: '3.13.1'
+  compile group: 'org.apache.thrift', name: 'libthrift',            version: '0.9.1'
+  compile group: 'org.scala-lang',    name: 'scala-library',        version: '2.10.3'
+}
+
+def thriftFile = 'src/main/thrift/Service.thrift'
+
+println(System.properties['java.vendor'])
+println(System.properties['java.version'])
+
+compileScrooge
+{
+  dest = file('build/scrooge/scala')
+  thriftFiles = files(file(thriftFile))
+  opts = ['--finagle',
+	  '--language', 'scala']
+}
+
+compileScala.dependsOn compileScrooge
+
+sourceSets.main.scala
+{
+  srcDir 'build/scrooge/scala'
+}
+
+buildscript
+{
+  repositories
+  {
+    mavenCentral()
+  }
+
+  dependencies
+  {
+    classpath group: 'com.github.iamsteveholmes', name: 'scrooge-gradle-plugin',  version: '0.5'
+    classpath group: 'com.twitter',               name: 'scrooge-generator_2.10', version: '3.13.1'
+  }
+}
