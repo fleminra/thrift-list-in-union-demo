@@ -6,7 +6,7 @@ mainClassName = 'Server'
 
 repositories
 {
-  maven { url 'http://quannum.ssd.loral.com/nexus/content/groups/public' }
+  mavenCentral()
 }
 
 dependencies
