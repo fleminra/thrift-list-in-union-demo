@@ -30,6 +30,10 @@ compileScrooge
 	  '--language', 'scala']
 }
 
+compileScala {
+  scalaCompileOptions.useAnt = false
+}
+
 compileScala.dependsOn compileScrooge
 
 sourceSets.main.scala
